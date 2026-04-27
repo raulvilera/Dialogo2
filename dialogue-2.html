@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linda & Glynda · English Dialogue 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --L:#e8614a;--L2:#f5a05a;
+  --G:#2ec4b6;--G2:#48a9e6;
+  --bg:#080c14;--card:#111827;--card2:#0f1c2e;
+  --border:#1a2740;--text:#dce8f8;--muted:#3d5478;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;min-height:100vh;padding-bottom:90px;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 55% 45% at 10% 15%,rgba(232,97,74,.07) 0%,transparent 65%),
+             radial-gradient(ellipse 50% 55% at 90% 80%,rgba(46,196,182,.06) 0%,transparent 65%)}
+
+header{position:relative;z-index:1;text-align:center;padding:44px 20px 6px}
+header h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:clamp(2rem,6vw,2.8rem);letter-spacing:-.5px;
+  background:linear-gradient(120deg,var(--L) 20%,var(--L2) 48%,var(--G) 80%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+header p{color:var(--muted);font-size:.76rem;margin-top:5px;letter-spacing:.4px}
+header::after{content:'';display:block;width:44px;height:1.5px;border-radius:1px;
+  background:linear-gradient(90deg,var(--L),var(--G));margin:16px auto 0}
+
+#sts{position:relative;z-index:1;text-align:center;font-size:.7rem;min-height:22px;padding:4px 16px;color:var(--muted)}
+
+.ctrl{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:10px 16px 26px}
+.btn-play{background:linear-gradient(135deg,var(--L),var(--L2));color:#fff;border:none;border-radius:50px;padding:12px 30px;
+  font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px;
+  box-shadow:0 4px 20px rgba(232,97,74,.36);transition:transform .15s,box-shadow .2s,opacity .2s}
+.btn-play:hover{transform:translateY(-2px);box-shadow:0 6px 26px rgba(232,97,74,.52)}
+.btn-play:active{transform:scale(.97)}
+.btn-play svg{width:14px;height:14px;fill:#fff}
+.btn-stop{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--border);border-radius:50px;padding:11px 22px;
+  font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:500;cursor:pointer;display:none;align-items:center;gap:7px;transition:background .2s}
+.btn-stop.on{display:flex}
+.btn-stop:hover{background:rgba(255,255,255,.09)}
+.pill{display:flex;align-items:center;gap:8px;background:var(--card2);border:1px solid var(--border);border-radius:50px;padding:8px 16px}
+.pill label{font-size:.68rem;color:var(--muted);white-space:nowrap}
+input[type=range]{-webkit-appearance:none;appearance:none;width:76px;height:3px;background:var(--border);border-radius:2px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:13px;height:13px;border-radius:50%;
+  background:linear-gradient(135deg,var(--L),var(--G));cursor:pointer}
+#spv{font-size:.68rem;color:var(--text);min-width:28px;text-align:right}
+
+.legend{position:relative;z-index:1;display:flex;justify-content:center;gap:22px;flex-wrap:wrap;padding:0 16px 22px}
+.leg{display:flex;align-items:center;gap:7px;font-size:.7rem;color:var(--muted)}
+.sw{width:20px;height:7px;border-radius:3px}
+.sw.L{background:linear-gradient(90deg,var(--L),var(--L2))}
+.sw.G{background:linear-gradient(90deg,var(--G),var(--G2))}
+
+.dlg{position:relative;z-index:1;display:flex;flex-direction:column;gap:13px;max-width:680px;margin:0 auto;padding:0 14px}
+.row{display:flex;align-items:flex-start;gap:9px}
+.row.G{flex-direction:row-reverse}
+.av{width:38px;height:38px;border-radius:50%;flex-shrink:0;margin-top:5px;display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:600;font-style:italic;transition:box-shadow .3s}
+.row.L .av{background:rgba(232,97,74,.12);color:var(--L);border:1.5px solid rgba(232,97,74,.28)}
+.row.G .av{background:rgba(46,196,182,.1);color:var(--G);border:1.5px solid rgba(46,196,182,.25)}
+.row.L.speaking .av{box-shadow:0 0 0 3px rgba(232,97,74,.3)}
+.row.G.speaking .av{box-shadow:0 0 0 3px rgba(46,196,182,.28)}
+.bub{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:10px 13px;max-width:calc(100% - 52px);
+  transition:border-color .3s,box-shadow .3s,background .3s}
+.row.L.speaking .bub{border-color:rgba(232,97,74,.5);box-shadow:0 0 18px rgba(232,97,74,.13);background:#160f10}
+.row.G.speaking .bub{border-color:rgba(46,196,182,.45);box-shadow:0 0 18px rgba(46,196,182,.1);background:#0d1a1c}
+.bh{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.sn{font-size:.62rem;font-weight:600;letter-spacing:1.8px;text-transform:uppercase}
+.row.L .sn{color:var(--L)}
+.row.G .sn{color:var(--G)}
+.hr{display:flex;align-items:center;gap:6px}
+
+@keyframes wb{0%,100%{transform:scaleY(1)}50%{transform:scaleY(2.8)}}
+.wv{display:none;gap:2px;align-items:center;height:12px}
+.wv.on{display:flex}
+.wv span{display:block;width:2px;height:5px;border-radius:2px;animation:wb .42s ease-in-out infinite}
+.row.L .wv span{background:var(--L)}
+.row.G .wv span{background:var(--G)}
+.wv span:nth-child(2){animation-delay:.08s}
+.wv span:nth-child(3){animation-delay:.16s}
+.wv span:nth-child(4){animation-delay:.24s}
+
+.lbtn{width:25px;height:25px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:transform .15s,opacity .2s}
+.lbtn:hover{transform:scale(1.13);opacity:.85}
+.lbtn svg{width:9px;height:9px}
+.row.L .lbtn{background:rgba(232,97,74,.2)}
+.row.G .lbtn{background:rgba(46,196,182,.18)}
+
+.txt{font-size:.94rem;line-height:1.82;font-weight:300;color:var(--text)}
+.w{display:inline;border-radius:5px;padding:1px 2px;transition:color .06s}
+@keyframes wp{0%{transform:scale(1)}38%{transform:scale(1.16)}100%{transform:scale(1)}}
+.w.hl{display:inline-block;animation:wp .21s cubic-bezier(.34,1.56,.64,1)}
+.row.L .w.hl{background:linear-gradient(135deg,rgba(232,97,74,.28),rgba(245,160,90,.22));color:#ffd0a5!important;font-weight:500;
+  text-shadow:0 0 14px rgba(232,97,74,.55);outline:1px solid rgba(232,97,74,.32);border-radius:6px}
+.row.G .w.hl{background:linear-gradient(135deg,rgba(46,196,182,.25),rgba(72,169,230,.2));color:#a6f5ef!important;font-weight:500;
+  text-shadow:0 0 14px rgba(46,196,182,.65);outline:1px solid rgba(46,196,182,.35);border-radius:6px}
+.w.done{opacity:.42}
+
+.qr-wrap{position:relative;z-index:1;max-width:680px;margin:56px auto 0;padding:0 16px;text-align:center}
+.qr-wrap h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;margin-bottom:4px}
+.qr-wrap p{color:var(--muted);font-size:.74rem;margin-bottom:16px}
+#qr{display:inline-block;background:#fff;padding:12px;border-radius:14px;box-shadow:0 6px 32px rgba(0,0,0,.55)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Linda &amp; Glynda</h1>
+  <p>English Dialogue · Words glow in sync with speech</p>
+</header>
+<div id="sts">⏳ Loading voices…</div>
+
+<div class="legend">
+  <div class="leg"><div class="sw G"></div><span>Glynda — calm &amp; measured</span></div>
+  <div class="leg"><div class="sw L"></div><span>Linda — warm &amp; expressive</span></div>
+</div>
+
+<div class="ctrl">
+  <button class="btn-play" id="btnPlay" onclick="playAll()">
+    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    Play Full Dialogue
+  </button>
+  <button class="btn-stop" id="btnStop" onclick="stopAll()">■ Stop</button>
+  <div class="pill">
+    <label for="spRange">Speed</label>
+    <input type="range" id="spRange" min="0.55" max="1.6" step="0.05" value="1.25"
+           oninput="document.getElementById('spv').textContent=parseFloat(this.value).toFixed(2)+'×'">
+    <span id="spv">1.25×</span>
+  </div>
+</div>
+
+<div class="dlg" id="dlg"></div>
+
+<div class="qr-wrap">
+  <h2>📱 Share this Dialogue</h2>
+  <p>Scan to open on any device</p>
+  <div id="qr"></div>
+</div>
+
+<script>
+var LINES = [
+  {id:0,  s:'L', name:'Linda',  text:'Hi, Glynda. How are you?'},
+  {id:1,  s:'G', name:'Glynda', text:"Hi, Linda. I'm okay… just a little tired."},
+  {id:2,  s:'L', name:'Linda',  text:'I understand. I love my job, but my days are busy.'},
+  {id:3,  s:'G', name:'Glynda', text:"I have a good job. I make a lot of money, but I'm not happy."},
+  {id:4,  s:'L', name:'Linda',  text:'Really? Why not?'},
+  {id:5,  s:'G', name:'Glynda', text:"I work a lot. I don't have much time for my son."},
+  {id:6,  s:'L', name:'Linda',  text:'I see… I have three children, and I spend a lot of time with them.'},
+  {id:7,  s:'G', name:'Glynda', text:'That is very good. I have one son, and I want to spend more time with him.'},
+  {id:8,  s:'L', name:'Linda',  text:'Maybe you can start with small changes.'},
+  {id:9,  s:'G', name:'Glynda', text:'Yes… I think I need that.'}
+];
+
+function tokenise(txt){
+  var out=[],re=/\S+/g,m;
+  while((m=re.exec(txt))!==null) out.push({t:m[0],cs:m.index});
+  return out;
+}
+var LD = LINES.map(function(l){ return {toks:tokenise(l.text)}; });
+
+(function(){
+  var c=document.getElementById('dlg');
+  LINES.forEach(function(line){
+    var toks=LD[line.id].toks, raw=line.text, html='', last=0;
+    toks.forEach(function(tok,wi){
+      if(tok.cs>last) html+=raw.slice(last,tok.cs);
+      html+='<span class="w" id="w-'+line.id+'-'+wi+'">'+tok.t+'</span>';
+      last=tok.cs+tok.t.length;
+    });
+    if(last<raw.length) html+=raw.slice(last);
+    var fill=line.s==='L'?'#e8614a':'#2ec4b6';
+    var div=document.createElement('div');
+    div.className='row '+line.s; div.id='row-'+line.id;
+    div.innerHTML=
+      '<div class="av">'+line.name[0]+'</div>'+
+      '<div class="bub" id="bub-'+line.id+'">'+
+        '<div class="bh">'+
+          '<span class="sn">'+line.name+'</span>'+
+          '<div class="hr">'+
+            '<div class="wv" id="wv-'+line.id+'"><span></span><span></span><span></span><span></span></div>'+
+            '<button class="lbtn" onclick="playSingle('+line.id+')" title="Play">'+
+              '<svg viewBox="0 0 24 24" fill="'+fill+'"><path d="M8 5v14l11-7z"/></svg>'+
+            '</button>'+
+          '</div>'+
+        '</div>'+
+        '<p class="txt" id="txt-'+line.id+'">'+html+'</p>'+
+      '</div>';
+    c.appendChild(div);
+  });
+})();
+
+function spans(id){
+  var p=document.getElementById('txt-'+id);
+  return p?Array.from(p.querySelectorAll('.w')):[];
+}
+function clearLine(id){ spans(id).forEach(function(s){s.className='w';}); }
+function markAllDone(id){ spans(id).forEach(function(s){s.className='w done';}); }
+function hlWord(id,wi){
+  spans(id).forEach(function(s,i){
+    if(i<wi)        s.className='w done';
+    else if(i===wi){ s.className='w hl'; bump(s); }
+    else            s.className='w';
+  });
+}
+function hlLast(id){
+  var sp=spans(id); if(!sp.length) return;
+  var last=sp.length-1;
+  sp.forEach(function(s,i){
+    if(i<last) s.className='w done';
+    else{ s.className='w hl'; bump(s); }
+  });
+}
+function bump(el){
+  el.style.animationName='none';
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ el.style.animationName=''; }); });
+}
+function setActive(id,on){
+  var row=document.getElementById('row-'+id);
+  var wv =document.getElementById('wv-'+id);
+  if(row){ if(on) row.classList.add('speaking'); else row.classList.remove('speaking'); }
+  if(wv){  if(on) wv.classList.add('on');        else wv.classList.remove('on'); }
+}
+function resetAll(){
+  LINES.forEach(function(l){ clearLine(l.id); setActive(l.id,false); });
+}
+function charToTok(id,ci){
+  var toks=LD[id].toks, b=0;
+  for(var i=0;i<toks.length;i++){ if(toks[i].cs<=ci) b=i; else break; }
+  return b;
+}
+
+var TTS=('speechSynthesis' in window)?window.speechSynthesis:null;
+var voices=[], _vc={L:null,G:null};
+var stsEl=document.getElementById('sts');
+
+function safeVoices(){ try{ return (TTS&&TTS.getVoices())||[]; }catch(e){ return []; } }
+function loadVoices(){
+  var v=safeVoices(); if(!v.length) return;
+  voices=v; _vc={L:null,G:null};
+  stsEl.textContent='✓ '+v.length+' voices ready';
+  setTimeout(function(){ stsEl.textContent=''; },2500);
+}
+
+if(!TTS){ stsEl.textContent='⚠️ Speech not supported on this browser.'; }
+else{
+  loadVoices();
+  try{ if('onvoiceschanged' in TTS) TTS.onvoiceschanged=loadVoices; }catch(e){}
+  var _poll=setInterval(function(){ if(voices.length)clearInterval(_poll); else loadVoices(); },250);
+  setTimeout(function(){ clearInterval(_poll); },8000);
+}
+
+function pickVoices(){
+  if(_vc.L&&_vc.G) return;
+  if(!voices.length) voices=safeVoices();
+  var en=voices.filter(function(v){ return /^en/i.test(v.lang); });
+  if(!en.length) en=voices; if(!en.length) return;
+  function score(v){
+    var n=v.name.toLowerCase(), s=0;
+    if(/natural|neural|premium|enhanced|wavenet|journey|studio|aria|sonia|jenny|libby|maisie|nova|onyx|echo|shimmer/.test(n)) s+=20;
+    if(/google/.test(n)) s+=8;
+    if(/microsoft/.test(n)) s+=6;
+    if(/apple/.test(n)||v.localService) s+=5;
+    if(/female|woman/.test(n)) s+=2;
+    return s;
+  }
+  var ranked=[].concat(en).sort(function(a,b){ return score(b)-score(a); });
+  var femRe=/female|woman|samantha|victoria|fiona|karen|moira|tessa|allison|ava|kate|emma|amy|joanna|kendra|kimberly|salli|ivy|aria|jenny|michelle|sonia|libby|maisie|zira|nova|shimmer/i;
+  var malRe=/male|man|david|mark|james|ryan|arthur|christopher|eric|liam|matthew|thomas|brian|guy|onyx|echo|daniel|rishi/i;
+  var fem=ranked.filter(function(v){ return femRe.test(v.name); });
+  var mal=ranked.filter(function(v){ return malRe.test(v.name); });
+  _vc.L = fem[0] || ranked[0];
+  var notLinda=ranked.filter(function(v){ return v!==_vc.L; });
+  _vc.G = mal[0]
+       || notLinda.filter(function(v){ return femRe.test(v.name); })[0]
+       || notLinda[0]
+       || ranked[1]
+       || ranked[0];
+}
+function getVoice(s){ pickVoices(); return s==='L'?_vc.L:_vc.G; }
+
+var isRunning=false, stopFlag=false, kaTimer=null, rafId=null;
+var msPerChar={L:52, G:55};
+
+function startKA(){
+  stopKA();
+  kaTimer=setInterval(function(){ if(TTS&&TTS.paused){ try{TTS.resume();}catch(e){} } },3500);
+}
+function stopKA(){ if(kaTimer){clearInterval(kaTimer);kaTimer=null;} }
+function stopRaf(){ if(rafId){cancelAnimationFrame(rafId);rafId=null;} }
+function getRate(){ return parseFloat(document.getElementById('spRange').value)||1.25; }
+
+function speakLine(lineId, onEnd){
+  if(!TTS){ if(onEnd)onEnd(); return; }
+  var line=LINES[lineId], toks=LD[lineId].toks, raw=line.text, s=line.s;
+  var rate=getRate();
+  var pitch = s==='L' ? 1.10 : 0.85;
+  var rAdj  = s==='L' ? 1.00 : 0.94;
+  var voice = getVoice(s);
+  var utter=new SpeechSynthesisUtterance(raw);
+  if(voice) utter.voice=voice;
+  utter.lang   = 'en-US';
+  utter.rate   = Math.min(rate*rAdj, 2.0);
+  utter.pitch  = pitch;
+  utter.volume = 1;
+
+  var t0=0, estDur=0, boundaryFired=false, lastBoundaryWi=-1, doneCalled=false;
+
+  function callDone(){
+    if(doneCalled) return; doneCalled=true; stopRaf();
+    if(t0>0 && raw.replace(/\s/g,'').length>3){
+      var elapsed=performance.now()-t0;
+      var chars=raw.replace(/\s/g,'').length;
+      var measured=(elapsed/chars)*(rate*rAdj);
+      msPerChar[s]=Math.round(msPerChar[s]*0.55+measured*0.45);
+    }
+    setActive(lineId,false); markAllDone(lineId);
+    if(onEnd) setTimeout(onEnd,0);
+  }
+
+  function startRaf(){
+    var effectiveRate=rate*rAdj;
+    estDur=(raw.length*msPerChar[s])/effectiveRate;
+    var deadline=estDur+600, lastWi=-1, totalLen=raw.length||1;
+    function frame(){
+      if(stopFlag){ stopRaf(); return; }
+      if(boundaryFired){ stopRaf(); return; }
+      var elapsed=performance.now()-t0;
+      var frac=Math.min(elapsed/estDur,1.0);
+      var wi=0;
+      for(var i=0;i<toks.length;i++){ if(toks[i].cs/totalLen<=frac) wi=i; else break; }
+      if(wi!==lastWi){ hlWord(lineId,wi); lastWi=wi; }
+      if(lastWi<toks.length-1||elapsed<deadline){
+        rafId=requestAnimationFrame(frame);
+      } else {
+        hlLast(lineId);
+        setTimeout(function(){ stopRaf(); if(!doneCalled) callDone(); },280);
+      }
+    }
+    rafId=requestAnimationFrame(frame);
+  }
+
+  utter.onstart=function(){ t0=performance.now(); startRaf(); };
+  utter.onboundary=function(e){
+    if(e.name!=='word') return;
+    if(!boundaryFired){ boundaryFired=true; stopRaf(); }
+    var wi=charToTok(lineId,e.charIndex); lastBoundaryWi=wi; hlWord(lineId,wi);
+  };
+  utter.onend=function(){
+    if(stopFlag){ doneCalled=true; stopRaf(); return; }
+    if(boundaryFired){
+      var lastIdx=toks.length-1;
+      if(lastBoundaryWi<lastIdx) hlWord(lineId,lastIdx);
+      setTimeout(callDone,240);
+    }
+    setTimeout(function(){ if(!doneCalled) callDone(); },600);
+  };
+  utter.onerror=function(e){
+    console.warn('TTS:',e.error,'|',raw); stopRaf();
+    if(!doneCalled) callDone();
+  };
+  try{ TTS.speak(utter); }catch(e){ if(onEnd) onEnd(); }
+}
+
+var queue=[];
+function runQueue(){
+  if(stopFlag||!isRunning||!queue.length){
+    isRunning=false; stopFlag=false; stopKA();
+    document.getElementById('btnStop').classList.remove('on'); return;
+  }
+  var id=queue.shift();
+  var row=document.getElementById('row-'+id);
+  setActive(id,true);
+  if(row) row.scrollIntoView({behavior:'smooth',block:'center'});
+  hlWord(id,0);
+  speakLine(id,function(){
+    if(stopFlag){ doStop(); return; }
+    var gap=Math.round(200/Math.max(getRate(),0.5));
+    setTimeout(runQueue,gap);
+  });
+}
+
+function doStop(){
+  isRunning=false; stopFlag=false; queue=[];
+  stopKA(); stopRaf();
+  try{ if(TTS) TTS.cancel(); }catch(e){}
+  resetAll();
+  document.getElementById('btnStop').classList.remove('on');
+}
+
+function stopAll(){ stopFlag=true; doStop(); }
+
+function playSingle(id){
+  if(!TTS){ stsEl.textContent='⚠️ Speech not supported.'; return; }
+  stopFlag=true; try{if(TTS)TTS.cancel();}catch(e){}
+  setTimeout(function(){
+    resetAll(); stopFlag=false; isRunning=true; queue=[id];
+    document.getElementById('btnStop').classList.add('on');
+    startKA(); runQueue();
+  },140);
+}
+
+function playAll(){
+  if(!TTS){ stsEl.textContent='⚠️ Speech not supported.'; return; }
+  stopFlag=true; try{if(TTS)TTS.cancel();}catch(e){}
+  setTimeout(function(){
+    resetAll(); stopFlag=false; isRunning=true;
+    queue=LINES.map(function(l){return l.id;});
+    document.getElementById('btnStop').classList.add('on');
+    startKA(); runQueue();
+  },140);
+}
+
+window.addEventListener('load',function(){
+  var url=window.location.href.split('?')[0];
+  try{
+    new QRCode(document.getElementById('qr'),{
+      text:url,width:164,height:164,
+      colorDark:'#080c14',colorLight:'#ffffff',
+      correctLevel:QRCode.CorrectLevel.M
+    });
+  }catch(e){ document.getElementById('qr').textContent=url; }
+});
+
+window.addEventListener('beforeunload',function(){
+  stopKA(); stopRaf();
+  try{ if(TTS) TTS.cancel(); }catch(e){}
+});
+</script>
+</body>
+</html>
